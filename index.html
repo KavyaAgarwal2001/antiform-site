@@ -1,512 +1,623 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Antiform</title>
-<meta name="description" content="Antiform. Earth-system intelligence for climate's hardest measurement problems.">
-<meta property="og:title" content="Antiform">
-<meta property="og:description" content="Earth-system intelligence for climate's hardest measurement problems.">
-<meta property="og:image" content="https://antiform.co/og-image.png">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Antiform">
-<meta name="twitter:description" content="Earth-system intelligence for climate's hardest measurement problems.">
-<meta name="twitter:image" content="https://antiform.co/og-image.png">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c2693f'/><text x='16' y='22' text-anchor='middle' font-family='monospace' font-weight='700' font-size='14' fill='%23f5f1ea'>AF</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg-0: #e8e2d8;
-    --bg-1: #f7f5f0;
-    --bg-2: #f0ece4;
-    --ink: #1a1815;
-    --ink-muted: #6b6560;
-    --ink-faint: rgba(26, 24, 21, 0.38);
-    --accent: #c2693f;
-    --accent-bright: #e08152;
-    --accent-soft: rgba(194, 105, 63, 0.10);
-    --line: rgba(26, 24, 21, 0.10);
-    --line-bright: rgba(26, 24, 21, 0.18);
-    --mono: 'JetBrains Mono', ui-monospace, monospace;
-    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --display: 'Space Grotesk', sans-serif;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antiform</title>
 
-  * { box-sizing: border-box; }
+  <meta name="description" content="Earth-system intelligence for climate's hardest measurement problems.">
 
-  html { scroll-behavior: smooth; }
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Antiform">
+  <meta property="og:description" content="Earth-system intelligence for climate's hardest measurement problems.">
+  <meta property="og:image"       content="https://antiform.co/og-image.png">
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: var(--bg-1);
-    color: var(--ink);
-    font-family: var(--sans);
-    overflow-x: hidden;
-  }
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Antiform">
+  <meta name="twitter:description" content="Earth-system intelligence for climate's hardest measurement problems.">
+  <meta name="twitter:image"       content="https://antiform.co/og-image.png">
 
-  /* ---------- background field ---------- */
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c2693f'/><text x='16' y='22' text-anchor='middle' font-family='monospace' font-weight='700' font-size='14' fill='%23f5f1ea'>AF</text></svg>">
 
-  .field {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background: radial-gradient(120% 70% at 50% 0%, var(--bg-2) 0%, var(--bg-1) 55%, var(--bg-0) 100%);
-  }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  .field svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
+  <style>
+    /* ── tokens ──────────────────────────────────────────── */
 
-  /* ---------- nav ---------- */
+    :root {
+      --bg-0:          #e8e2d8;
+      --bg-1:          #f7f5f0;
+      --bg-2:          #f0ece4;
+      --ink:           #1a1815;
+      --ink-muted:     #6b6560;
+      --ink-faint:     rgba(26, 24, 21, 0.38);
+      --accent:        #c2693f;
+      --accent-bright: #e08152;
+      --line:          rgba(26, 24, 21, 0.10);
+      --line-bright:   rgba(26, 24, 21, 0.18);
+      --font-mono:     'JetBrains Mono', ui-monospace, monospace;
+      --font-sans:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display:  'Space Grotesk', sans-serif;
+      --radius-sm:     8px;
+      --radius-md:     12px;
+      --radius-lg:     14px;
+      --max-w:         78rem;
+      --gutter:        clamp(1.25rem, 4vw, 3rem);
+    }
 
-  nav {
-    position: relative;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.6rem clamp(1.25rem, 4vw, 3rem);
-    max-width: 78rem;
-    margin: 0 auto;
-  }
+    /* ── reset ───────────────────────────────────────────── */
 
-  .nav-mark {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: 0.95rem;
-    letter-spacing: 0.06em;
-    color: var(--ink);
-  }
+    *, *::before, *::after { box-sizing: border-box; }
 
-  .nav-mark span { color: var(--accent); }
+    html { scroll-behavior: smooth; }
 
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 1.4rem;
-  }
+    body {
+      margin: 0;
+      background: var(--bg-1);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+    }
 
-  .status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    color: var(--ink-muted);
-    border: 1px solid var(--line-bright);
-    border-radius: 999px;
-    padding: 0.35rem 0.7rem 0.35rem 0.6rem;
-  }
+    /* ── background field ────────────────────────────────── */
 
-  .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent-bright);
-    box-shadow: 0 0 0 0 rgba(224, 129, 82, 0.6);
-    animation: pulse 2.2s infinite;
-  }
+    .bg-field {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-  @keyframes pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(224, 129, 82, 0.55); }
-    70%  { box-shadow: 0 0 0 6px rgba(224, 129, 82, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(224, 129, 82, 0); }
-  }
+    .bg-field svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
 
-  nav a.join-link {
-    font-family: var(--sans);
-    font-weight: 500;
-    font-size: 0.85rem;
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--line-bright);
-    padding-bottom: 0.15rem;
-    transition: border-color 0.2s ease, color 0.2s ease;
-  }
+    /* ── shared ──────────────────────────────────────────── */
 
-  nav a.join-link:hover { border-color: var(--accent); color: var(--accent-bright); }
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
 
-  /* ---------- layout ---------- */
+    .kicker {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 1.1rem;
+    }
 
-  main {
-    position: relative;
-    z-index: 2;
-    max-width: 78rem;
-    margin: 0 auto;
-    padding: 0 clamp(1.25rem, 4vw, 3rem);
-  }
+    /* ── header / nav ────────────────────────────────────── */
 
-  section {
-    padding: clamp(3rem, 9vh, 7rem) 0;
-  }
+    .site-header {
+      position: relative;
+      z-index: 3;
+    }
 
-  .kicker {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 1.1rem;
-  }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.6rem var(--gutter);
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
 
-  /* ---------- hero ---------- */
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      text-decoration: none;
+    }
 
-  .hero {
-    min-height: 78vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: clamp(2rem, 6vh, 4rem);
-    padding-bottom: clamp(2rem, 6vh, 4rem);
-    opacity: 0;
-    transform: translateY(10px);
-    animation: rise 1s ease forwards;
-    animation-delay: 0.1s;
-  }
+    .nav-logo span { color: var(--accent); }
 
-  @keyframes rise {
-    to { opacity: 1; transform: translateY(0); }
-  }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+    }
 
-  .mark {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(3.2rem, 10vw, 6.4rem);
-    line-height: 0.98;
-    letter-spacing: -0.01em;
-    margin: 0;
-    color: var(--ink);
-  }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-muted);
+      border: 1px solid var(--line-bright);
+      border-radius: 999px;
+      padding: 0.35rem 0.7rem 0.35rem 0.6rem;
+    }
 
-  .mark span { color: var(--accent); }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-bright);
+      animation: pulse 2.2s infinite;
+    }
 
-  .tagline {
-    margin: 1.4rem 0 0;
-    font-size: clamp(1.05rem, 2.1vw, 1.35rem);
-    font-weight: 400;
-    color: var(--ink-muted);
-    line-height: 1.5;
-    max-width: 34rem;
-  }
+    .nav-link {
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line-bright);
+      padding-bottom: 0.15rem;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
 
-  .geo-line {
-    margin: 1.1rem 0 0;
-    font-size: 0.85rem;
-    font-style: italic;
-    color: var(--accent);
-    opacity: 0.85;
-    max-width: 30rem;
-  }
+    .nav-link:hover { border-color: var(--accent); color: var(--accent-bright); }
 
-  .hero-cta {
-    display: inline-block;
-    margin-top: 2rem;
-    background: var(--accent);
-    color: #0b0a09;
-    font-family: var(--sans);
-    font-weight: 600;
-    font-size: 0.92rem;
-    padding: 0.85rem 1.8rem;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background 0.2s ease, transform 0.15s ease;
-  }
+    /* ── main ────────────────────────────────────────────── */
 
-  .hero-cta:hover { background: var(--accent-bright); transform: translateY(-1px); }
+    .site-main {
+      position: relative;
+      z-index: 2;
+    }
 
-  @media (max-width: 480px) {
-    .nav-right { gap: 0.75rem; }
-    .status-pill { display: none; }
-  }
+    section {
+      padding: clamp(3rem, 9vh, 7rem) 0;
+    }
 
-  /* ---------- focus ---------- */
+    /* ── hero ────────────────────────────────────────────── */
 
-  .focus-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    overflow: hidden;
-  }
+    .hero {
+      min-height: 78vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 2rem;
+      padding-top: clamp(2rem, 6vh, 4rem);
+      padding-bottom: clamp(2rem, 6vh, 4rem);
+      opacity: 0;
+      transform: translateY(10px);
+      animation: rise 1s ease forwards 0.1s;
+    }
 
-  @media (max-width: 760px) {
-    .focus-grid { grid-template-columns: 1fr; }
-  }
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+    }
 
-  .focus-card {
-    background: rgba(245, 241, 234, 0.02);
-    padding: 2rem 1.8rem;
-    transition: background 0.25s ease;
-  }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(3.2rem, 10vw, 6.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.01em;
+      margin: 0;
+      color: var(--ink);
+    }
 
-  .focus-card:hover { background: rgba(245, 241, 234, 0.045); }
+    .hero-headline span { color: var(--accent); }
 
-  .focus-num {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--ink-faint);
-    margin: 0 0 1.4rem;
-  }
+    .hero-tagline {
+      margin: 1.4rem 0 0;
+      font-size: clamp(1.05rem, 2.1vw, 1.35rem);
+      color: var(--ink-muted);
+      line-height: 1.5;
+      max-width: 34rem;
+    }
 
-  .focus-title {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: 1.05rem;
-    letter-spacing: 0.02em;
-    margin: 0 0 0.6rem;
-    color: var(--ink);
-  }
+    .hero-geo {
+      margin: 1.1rem 0 0;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--accent);
+      opacity: 0.85;
+    }
 
-  .focus-desc {
-    font-size: 0.92rem;
-    color: var(--ink-muted);
-    line-height: 1.55;
-    margin: 0;
-  }
+    .hero-cta {
+      display: inline-block;
+      margin-top: 2rem;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 0.85rem 1.8rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
 
-  /* ---------- join ---------- */
+    .hero-cta:hover { background: var(--accent-bright); transform: translateY(-1px); }
 
-  .join-inner {
-    border-top: 1px solid var(--line);
-    padding-top: clamp(2.5rem, 7vh, 4.5rem);
-    text-align: left;
-  }
+    .hero-visual {
+      display: flex;
+      justify-content: flex-end;
+    }
 
-  .join-heading {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: clamp(1.4rem, 3vw, 1.9rem);
-    margin: 0 0 0.6rem;
-    max-width: 28rem;
-  }
+    .hero-visual > div { width: 100%; max-width: 480px; }
 
-  .join-sub {
-    font-size: 0.95rem;
-    color: var(--ink-muted);
-    margin: 0 0 2rem;
-    max-width: 28rem;
-  }
+    .topo-img {
+      width: 100%;
+      border-radius: var(--radius-md);
+      box-shadow: 0 12px 48px rgba(100, 90, 70, 0.18), 0 2px 8px rgba(100, 90, 70, 0.10);
+      transition: opacity 0.8s ease;
+    }
 
-  form {
-    display: flex;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-    max-width: 30rem;
-  }
+    .topo-dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      margin-top: 14px;
+    }
 
-  input[type="email"] {
-    flex: 1;
-    background: rgba(245, 241, 234, 0.03);
-    border: 1px solid var(--line-bright);
-    border-radius: 8px;
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 0.95rem;
-    padding: 0.85rem 1rem;
-    min-width: 14rem;
-    outline: none;
-    transition: border-color 0.2s ease, background 0.2s ease;
-  }
+    .topo-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ink-faint);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
 
-  input[type="email"]::placeholder { color: rgba(245, 241, 234, 0.32); }
-  input[type="email"]:focus { border-color: var(--accent); background: rgba(245, 241, 234, 0.05); }
+    .topo-dot[aria-selected="true"] {
+      background: var(--accent);
+      transform: scale(1.25);
+    }
 
-  button {
-    background: var(--accent);
-    color: #0b0a09;
-    border: none;
-    padding: 0.85rem 1.6rem;
-    border-radius: 8px;
-    font-family: var(--sans);
-    font-weight: 600;
-    font-size: 0.92rem;
-    cursor: pointer;
-    transition: transform 0.15s ease, background 0.2s ease;
-    white-space: nowrap;
-  }
+    /* ── focus ───────────────────────────────────────────── */
 
-  button:hover { background: var(--accent-bright); transform: translateY(-1px); }
-  button:active { transform: translateY(0); }
-  button:disabled { opacity: 0.6; cursor: default; transform: none; }
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
 
-  .note {
-    margin-top: 0.9rem;
-    font-size: 0.78rem;
-    color: var(--ink-faint);
-  }
+    .focus-card {
+      background: var(--bg-1);
+      padding: 2rem 1.8rem;
+      transition: background 0.25s ease;
+    }
 
-  .success {
-    margin-top: 1.4rem;
-    font-size: 0.95rem;
-    color: var(--ink);
-    display: none;
-  }
-  .success.show { display: block; }
-  form.hide { display: none; }
+    .focus-card:hover { background: var(--bg-2); }
 
-  .error {
-    margin-top: 0.9rem;
-    font-size: 0.8rem;
-    color: #e1a98d;
-    display: none;
-  }
-  .error.show { display: block; }
+    .focus-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+      margin: 0 0 1.4rem;
+    }
 
-  /* ---------- footer ---------- */
+    .focus-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: 0.02em;
+      margin: 0 0 0.6rem;
+      color: var(--ink);
+    }
 
-  footer {
-    position: relative;
-    z-index: 2;
-    border-top: 1px solid var(--line);
-    padding: 1.6rem clamp(1.25rem, 4vw, 3rem) 2rem;
-    max-width: 78rem;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
+    .focus-desc {
+      font-size: 0.92rem;
+      color: var(--ink-muted);
+      line-height: 1.55;
+      margin: 0;
+    }
 
-  footer .f-left,
-  footer .f-right {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.05em;
-    color: var(--ink-faint);
-  }
-</style>
+    /* ── join ────────────────────────────────────────────── */
+
+    .join-inner {
+      border-top: 1px solid var(--line);
+      padding-top: clamp(2.5rem, 7vh, 4.5rem);
+    }
+
+    .join-heading {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      margin: 0 0 0.6rem;
+      max-width: 28rem;
+    }
+
+    .join-sub {
+      font-size: 0.95rem;
+      color: var(--ink-muted);
+      margin: 0 0 2rem;
+      max-width: 28rem;
+    }
+
+    .waitlist-form {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      max-width: 30rem;
+    }
+
+    .waitlist-form input[type="email"] {
+      flex: 1;
+      background: var(--bg-2);
+      border: 1px solid var(--line-bright);
+      border-radius: var(--radius-sm);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      padding: 0.85rem 1rem;
+      min-width: 14rem;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .waitlist-form input[type="email"]::placeholder { color: var(--ink-faint); }
+    .waitlist-form input[type="email"]:focus { border-color: var(--accent); background: var(--bg-1); }
+
+    .waitlist-form button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.85rem 1.6rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+
+    .waitlist-form button:hover   { background: var(--accent-bright); transform: translateY(-1px); }
+    .waitlist-form button:active  { transform: translateY(0); }
+    .waitlist-form button:disabled { opacity: 0.6; cursor: default; transform: none; }
+
+    .form-feedback {
+      margin-top: 0.9rem;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .form-feedback.show { display: block; }
+    .form-feedback--error   { color: #a0522d; }
+    .form-feedback--success { color: var(--ink-muted); }
+
+    .waitlist-form.is-hidden { display: none; }
+
+    /* ── footer ──────────────────────────────────────────── */
+
+    .site-footer {
+      position: relative;
+      z-index: 2;
+      border-top: 1px solid var(--line);
+      padding: 1.6rem var(--gutter) 2rem;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      color: var(--ink-faint);
+    }
+
+    /* ── animations ──────────────────────────────────────── */
+
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0   rgba(224, 129, 82, 0.55); }
+      70%  { box-shadow: 0 0 0 6px rgba(224, 129, 82, 0); }
+      100% { box-shadow: 0 0 0 0   rgba(224, 129, 82, 0); }
+    }
+
+    /* ── responsive ──────────────────────────────────────── */
+
+    @media (max-width: 760px) {
+      .focus-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 700px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-actions { gap: 0.75rem; }
+      .status-pill { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="field" aria-hidden="true">
+<div class="bg-field" aria-hidden="true">
   <svg viewBox="0 0 1440 1400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M -100 120 Q 320 30 720 120 Q 1120 210 1540 120" stroke="rgba(245,241,234,0.05)" stroke-width="1" fill="none"/>
-    <path d="M -100 230 Q 320 130 720 230 Q 1120 330 1540 230" stroke="rgba(245,241,234,0.045)" stroke-width="1" fill="none"/>
-    <path d="M -100 420 Q 320 300 720 420 Q 1120 540 1540 420" stroke="rgba(194,105,63,0.07)" stroke-width="1" fill="none"/>
-    <path d="M -100 560 Q 320 440 720 560 Q 1120 680 1540 560" stroke="rgba(245,241,234,0.04)" stroke-width="1" fill="none"/>
-    <path d="M -100 760 Q 320 620 720 760 Q 1120 900 1540 760" stroke="rgba(245,241,234,0.045)" stroke-width="1" fill="none"/>
-    <path d="M -100 920 Q 320 800 720 920 Q 1120 1040 1540 920" stroke="rgba(194,105,63,0.06)" stroke-width="1" fill="none"/>
-    <path d="M -100 1100 Q 320 980 720 1100 Q 1120 1220 1540 1100" stroke="rgba(245,241,234,0.04)" stroke-width="1" fill="none"/>
-    <path d="M -100 1280 Q 320 1160 720 1280 Q 1120 1400 1540 1280" stroke="rgba(245,241,234,0.035)" stroke-width="1" fill="none"/>
+    <path d="M -100 120 Q 320 30 720 120 Q 1120 210 1540 120"  stroke="rgba(26,24,21,0.04)"  stroke-width="1" fill="none"/>
+    <path d="M -100 230 Q 320 130 720 230 Q 1120 330 1540 230"  stroke="rgba(26,24,21,0.035)" stroke-width="1" fill="none"/>
+    <path d="M -100 420 Q 320 300 720 420 Q 1120 540 1540 420"  stroke="rgba(194,105,63,0.06)" stroke-width="1" fill="none"/>
+    <path d="M -100 560 Q 320 440 720 560 Q 1120 680 1540 560"  stroke="rgba(26,24,21,0.03)"  stroke-width="1" fill="none"/>
+    <path d="M -100 760 Q 320 620 720 760 Q 1120 900 1540 760"  stroke="rgba(26,24,21,0.035)" stroke-width="1" fill="none"/>
+    <path d="M -100 920 Q 320 800 720 920 Q 1120 1040 1540 920" stroke="rgba(194,105,63,0.05)" stroke-width="1" fill="none"/>
+    <path d="M -100 1100 Q 320 980 720 1100 Q 1120 1220 1540 1100" stroke="rgba(26,24,21,0.03)"  stroke-width="1" fill="none"/>
+    <path d="M -100 1280 Q 320 1160 720 1280 Q 1120 1400 1540 1280" stroke="rgba(26,24,21,0.025)" stroke-width="1" fill="none"/>
   </svg>
 </div>
 
-<nav>
-  <a class="nav-mark" href="#" style="text-decoration:none;">ANTI<span>FORM</span></a>
-  <div class="nav-right">
-    <span class="status-pill"><span class="dot"></span>BUILDING</span>
-    <a class="join-link" href="#join">Get updates</a>
-  </div>
-</nav>
+<header class="site-header">
+  <nav class="site-nav" aria-label="Main">
+    <a class="nav-logo" href="#">ANTI<span>FORM</span></a>
+    <div class="nav-actions">
+      <span class="status-pill" aria-label="Status: building">
+        <span class="status-dot" aria-hidden="true"></span>BUILDING
+      </span>
+      <a class="nav-link" href="#join">Get updates</a>
+    </div>
+  </nav>
+</header>
 
-<main>
+<main class="site-main">
 
-  <section class="hero">
-    <p class="kicker">// stealth · 2026</p>
-    <h1 class="mark">ANTI<span>FORM</span></h1>
-    <p class="tagline">Earth-system intelligence for climate's hardest measurement problems.</p>
-    <p class="geo-line">an antiform: a fold in rock whose true shape is still being found.</p>
-    <a class="hero-cta" href="#join">Get updates</a>
-  </section>
-
-  <section class="focus" id="focus">
-    <p class="kicker">Focus areas</p>
-    <div class="focus-grid">
-      <div class="focus-card">
-        <p class="focus-num">01</p>
-        <h3 class="focus-title">Measurement</h3>
-        <p class="focus-desc">Turning climate claims into things that can actually be verified, with physics — not assumptions.</p>
-      </div>
-      <div class="focus-card">
-        <p class="focus-num">02</p>
-        <h3 class="focus-title">Modeling</h3>
-        <p class="focus-desc">Physics-informed machine learning for the Earth-system processes climate accounting depends on.</p>
-      </div>
-      <div class="focus-card">
-        <p class="focus-num">03</p>
-        <h3 class="focus-title">Infrastructure</h3>
-        <p class="focus-desc">The data and tooling layer climate science and climate markets are still missing.</p>
+  <section class="hero container" aria-labelledby="hero-heading">
+    <div class="hero-text">
+      <p class="kicker">// stealth · 2026</p>
+      <h1 class="hero-headline" id="hero-heading">ANTI<span>FORM</span></h1>
+      <p class="hero-tagline">Earth-system intelligence for climate's hardest measurement problems.</p>
+      <p class="hero-geo">an antiform: a fold in rock whose true shape is still being found.</p>
+      <a class="hero-cta" href="#join">Get updates</a>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div>
+        <img id="topo-img" class="topo-img" src="topo.png" alt="">
+        <div class="topo-dots" role="tablist" aria-label="Select image">
+          <button class="topo-dot" role="tab" aria-selected="true"  data-index="0" aria-label="Image 1"></button>
+          <button class="topo-dot" role="tab" aria-selected="false" data-index="1" aria-label="Image 2"></button>
+          <button class="topo-dot" role="tab" aria-selected="false" data-index="2" aria-label="Image 3"></button>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="join" id="join">
+  <section class="container" id="focus" aria-labelledby="focus-heading">
+    <p class="kicker" id="focus-heading">Focus areas</p>
+    <div class="focus-grid">
+      <article class="focus-card">
+        <p class="focus-num">01</p>
+        <h2 class="focus-title">Measurement</h2>
+        <p class="focus-desc">Turning climate claims into things that can actually be verified, with physics — not assumptions.</p>
+      </article>
+      <article class="focus-card">
+        <p class="focus-num">02</p>
+        <h2 class="focus-title">Modeling</h2>
+        <p class="focus-desc">Physics-informed machine learning for the Earth-system processes climate accounting depends on.</p>
+      </article>
+      <article class="focus-card">
+        <p class="focus-num">03</p>
+        <h2 class="focus-title">Infrastructure</h2>
+        <p class="focus-desc">The data and tooling layer climate science and climate markets are still missing.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="container" id="join" aria-labelledby="join-heading">
     <div class="join-inner">
       <p class="kicker">Stay in the loop</p>
-      <h2 class="join-heading">Get notified when there's something real to see.</h2>
+      <h2 class="join-heading" id="join-heading">Get notified when there's something real to see.</h2>
       <p class="join-sub">No spam, no drip campaign — one note when we ship something real.</p>
 
-      <form id="waitlist-form" action="https://api.web3forms.com/submit" method="POST">
+      <form
+        id="waitlist-form"
+        class="waitlist-form"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+        novalidate
+      >
         <input type="hidden" name="access_key" value="4499fb2b-cab1-42af-a68a-e3275c2cc1c6">
-        <input type="hidden" name="subject" value="New Antiform waitlist signup">
-        <input type="checkbox" name="botcheck" class="hidden" style="display:none">
-        <input type="email" name="email" placeholder="you@email.com" required>
+        <input type="hidden" name="subject"    value="New Antiform waitlist signup">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" aria-hidden="true">
+        <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required>
         <button type="submit">Join the queue</button>
       </form>
-      <p class="error" id="form-error">Something went wrong &mdash; try again in a moment.</p>
-      <p class="success" id="form-success">You're in the queue. We'll be in touch.</p>
+
+      <p id="form-error"   class="form-feedback form-feedback--error"   role="alert">Something went wrong — try again in a moment.</p>
+      <p id="form-success" class="form-feedback form-feedback--success"  role="status">You're in the queue. We'll be in touch.</p>
     </div>
   </section>
 
 </main>
 
-<footer>
-  <span class="f-left">ANTIFORM &mdash; EST. 2026</span>
-  <span class="f-right">EARTH SYSTEMS / CLIMATE</span>
+<footer class="site-footer">
+  <span>ANTIFORM &mdash; EST. 2026</span>
+  <span>EARTH SYSTEMS / CLIMATE</span>
 </footer>
 
 <script>
-  const form = document.getElementById('waitlist-form');
-  const success = document.getElementById('form-success');
-  const errorEl = document.getElementById('form-error');
-  const button = form.querySelector('button');
+  (() => {
+    /* ── topo carousel ── */
+    const IMAGES   = ['topo.png', 'topo2.png', 'topo3.png'];
+    const INTERVAL = 5000;
+    const FADE_MS  = 800;
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    errorEl.classList.remove('show');
-    button.disabled = true;
-    button.textContent = 'Joining…';
+    const img  = document.getElementById('topo-img');
+    const dots = [...document.querySelectorAll('.topo-dot')];
+    let current = 0;
+    let timer;
 
-    const data = Object.fromEntries(new FormData(form));
-
-    try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-      const result = await res.json().catch(() => ({}));
-
-      if (res.ok && result.success !== false) {
-        form.classList.add('hide');
-        success.classList.add('show');
-      } else {
-        button.disabled = false;
-        button.textContent = 'Join the queue';
-        errorEl.classList.add('show');
-      }
-    } catch (err) {
-      button.disabled = false;
-      button.textContent = 'Join the queue';
-      errorEl.classList.add('show');
+    function goTo(index) {
+      img.style.opacity = '0';
+      setTimeout(() => {
+        current    = index;
+        img.src    = IMAGES[current];
+        img.style.opacity = '1';
+      }, FADE_MS);
+      dots.forEach((d, i) => d.setAttribute('aria-selected', i === index ? 'true' : 'false'));
     }
-  });
+
+    function next() { goTo((current + 1) % IMAGES.length); }
+
+    function startAutoplay() { timer = setInterval(next, INTERVAL); }
+    function stopAutoplay()  { clearInterval(timer); }
+
+    dots.forEach(d => {
+      d.addEventListener('click', () => {
+        stopAutoplay();
+        goTo(+d.dataset.index);
+        startAutoplay();
+      });
+    });
+
+    startAutoplay();
+
+    /* ── waitlist form ── */
+    const form      = document.getElementById('waitlist-form');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const errorEl   = document.getElementById('form-error');
+    const successEl = document.getElementById('form-success');
+
+    function setLoading(loading) {
+      submitBtn.disabled    = loading;
+      submitBtn.textContent = loading ? 'Joining…' : 'Join the queue';
+    }
+
+    function showError() {
+      errorEl.classList.add('show');
+      setLoading(false);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.classList.remove('show');
+      setLoading(true);
+
+      try {
+        const res    = await fetch(form.action, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body:    JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const result = await res.json().catch(() => ({}));
+
+        if (res.ok && result.success !== false) {
+          form.classList.add('is-hidden');
+          successEl.classList.add('show');
+        } else {
+          showError();
+        }
+      } catch {
+        showError();
+      }
+    });
+  })();
 </script>
 
 </body>
