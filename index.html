@@ -428,9 +428,21 @@
       .focus-grid { grid-template-columns: 1fr; }
     }
 
+    .mobile-topo { display: none; }
+
     @media (max-width: 700px) {
-      .hero { grid-template-columns: 1fr; }
+      .hero { grid-template-columns: 1fr; padding-bottom: 0; }
       .hero-visual { display: none; }
+      .mobile-topo {
+        display: block;
+        margin-top: 0.5rem;
+        margin-bottom: 3rem;
+      }
+      .mobile-topo img {
+        width: 100%;
+        border-radius: var(--radius-md);
+        box-shadow: 0 12px 48px rgba(100, 90, 70, 0.18), 0 2px 8px rgba(100, 90, 70, 0.10);
+      }
     }
 
     @media (max-width: 480px) {
@@ -487,6 +499,10 @@
       </div>
     </div>
   </section>
+
+  <div class="mobile-topo container">
+    <img src="topo2.png" alt="">
+  </div>
 
   <section class="container" id="focus" aria-labelledby="focus-heading">
     <p class="kicker" id="focus-heading">Focus areas</p>
