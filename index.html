@@ -4,53 +4,174 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Antiform</title>
-<meta name="description" content="Antiform. Building in climate & Earth systems. Get notified when we're out.">
+<meta name="description" content="Antiform. Earth-system intelligence for climate's hardest measurement problems.">
 <meta property="og:title" content="Antiform">
-<meta property="og:description" content="Building in climate & Earth systems. Currently heads down.">
+<meta property="og:description" content="Earth-system intelligence for climate's hardest measurement problems.">
+<meta property="og:image" content="https://antiform.co/og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Antiform">
+<meta name="twitter:description" content="Earth-system intelligence for climate's hardest measurement problems.">
+<meta name="twitter:image" content="https://antiform.co/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c2693f'/><text x='16' y='22' text-anchor='middle' font-family='monospace' font-weight='700' font-size='14' fill='%23f5f1ea'>AF</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-1: #0b0a09;
-    --bg-2: #15120f;
+    --bg-0: #070605;
+    --bg-1: #0c0a08;
+    --bg-2: #181310;
     --ink: #f5f1ea;
-    --ink-muted: #b8b0a4;
+    --ink-muted: #a9a097;
+    --ink-faint: rgba(245, 241, 234, 0.42);
     --accent: #c2693f;
-    --accent-soft: rgba(194, 105, 63, 0.14);
-    --line: rgba(245, 241, 234, 0.16);
+    --accent-bright: #e08152;
+    --accent-soft: rgba(194, 105, 63, 0.12);
+    --line: rgba(245, 241, 234, 0.10);
+    --line-bright: rgba(245, 241, 234, 0.20);
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --display: 'Space Grotesk', sans-serif;
   }
 
   * { box-sizing: border-box; }
 
+  html { scroll-behavior: smooth; }
+
   html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    background: radial-gradient(120% 120% at 50% 0%, var(--bg-2) 0%, var(--bg-1) 60%);
+    background: var(--bg-1);
     color: var(--ink);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--sans);
     overflow-x: hidden;
   }
 
-  .wrap {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 6vh 1.5rem;
-    position: relative;
-    z-index: 2;
+  /* ---------- background field ---------- */
+
+  .field {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(120% 70% at 50% 0%, var(--bg-2) 0%, var(--bg-1) 55%, var(--bg-0) 100%);
   }
 
-  .content {
-    max-width: 38rem;
+  .field svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ---------- nav ---------- */
+
+  nav {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.6rem clamp(1.25rem, 4vw, 3rem);
+    max-width: 78rem;
+    margin: 0 auto;
+  }
+
+  .nav-mark {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+  }
+
+  .nav-mark span { color: var(--accent); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    border: 1px solid var(--line-bright);
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem 0.35rem 0.6rem;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-bright);
+    box-shadow: 0 0 0 0 rgba(224, 129, 82, 0.6);
+    animation: pulse 2.2s infinite;
+  }
+
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(224, 129, 82, 0.55); }
+    70%  { box-shadow: 0 0 0 6px rgba(224, 129, 82, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(224, 129, 82, 0); }
+  }
+
+  nav a.join-link {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-bright);
+    padding-bottom: 0.15rem;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  nav a.join-link:hover { border-color: var(--accent); color: var(--accent-bright); }
+
+  /* ---------- layout ---------- */
+
+  main {
+    position: relative;
+    z-index: 2;
+    max-width: 78rem;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem);
+  }
+
+  section {
+    padding: clamp(3rem, 9vh, 7rem) 0;
+  }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1.1rem;
+  }
+
+  /* ---------- hero ---------- */
+
+  .hero {
+    min-height: 78vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: clamp(2rem, 6vh, 4rem);
+    padding-bottom: clamp(2rem, 6vh, 4rem);
     opacity: 0;
     transform: translateY(10px);
-    animation: rise 1.1s ease forwards;
-    animation-delay: 0.15s;
+    animation: rise 1s ease forwards;
+    animation-delay: 0.1s;
   }
 
   @keyframes rise {
@@ -58,10 +179,11 @@
   }
 
   .mark {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: clamp(2.4rem, 7.5vw, 4.2rem);
-    letter-spacing: 0.04em;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(3.2rem, 10vw, 6.4rem);
+    line-height: 0.98;
+    letter-spacing: -0.01em;
     margin: 0;
     color: var(--ink);
   }
@@ -69,72 +191,164 @@
   .mark span { color: var(--accent); }
 
   .tagline {
-    margin: 1.1rem auto 0;
-    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    margin: 1.4rem 0 0;
+    font-size: clamp(1.05rem, 2.1vw, 1.35rem);
     font-weight: 400;
     color: var(--ink-muted);
-    line-height: 1.55;
-    max-width: 30rem;
+    line-height: 1.5;
+    max-width: 34rem;
   }
 
   .geo-line {
-    margin: 0.9rem auto 0;
+    margin: 1.1rem 0 0;
     font-size: 0.85rem;
     font-style: italic;
     color: var(--accent);
     opacity: 0.85;
-    letter-spacing: 0.01em;
+    max-width: 30rem;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    margin-top: 2rem;
+    background: var(--accent);
+    color: #0b0a09;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 0.85rem 1.8rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+
+  .hero-cta:hover { background: var(--accent-bright); transform: translateY(-1px); }
+
+  @media (max-width: 480px) {
+    .nav-right { gap: 0.75rem; }
+    .status-pill { display: none; }
+  }
+
+  /* ---------- focus ---------- */
+
+  .focus-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 760px) {
+    .focus-grid { grid-template-columns: 1fr; }
+  }
+
+  .focus-card {
+    background: rgba(245, 241, 234, 0.02);
+    padding: 2rem 1.8rem;
+    transition: background 0.25s ease;
+  }
+
+  .focus-card:hover { background: rgba(245, 241, 234, 0.045); }
+
+  .focus-num {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    margin: 0 0 1.4rem;
+  }
+
+  .focus-title {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    margin: 0 0 0.6rem;
+    color: var(--ink);
+  }
+
+  .focus-desc {
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ---------- join ---------- */
+
+  .join-inner {
+    border-top: 1px solid var(--line);
+    padding-top: clamp(2.5rem, 7vh, 4.5rem);
+    text-align: left;
+  }
+
+  .join-heading {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    margin: 0 0 0.6rem;
+    max-width: 28rem;
+  }
+
+  .join-sub {
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+    margin: 0 0 2rem;
+    max-width: 28rem;
   }
 
   form {
-    margin-top: 2.6rem;
     display: flex;
     gap: 0.6rem;
-    justify-content: center;
     flex-wrap: wrap;
+    max-width: 30rem;
   }
 
   input[type="email"] {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--line);
+    flex: 1;
+    background: rgba(245, 241, 234, 0.03);
+    border: 1px solid var(--line-bright);
+    border-radius: 8px;
     color: var(--ink);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--sans);
     font-size: 0.95rem;
-    padding: 0.7rem 0.2rem;
-    min-width: 17rem;
+    padding: 0.85rem 1rem;
+    min-width: 14rem;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s ease, background 0.2s ease;
   }
 
-  input[type="email"]::placeholder { color: rgba(245,241,234,0.35); }
-  input[type="email"]:focus { border-color: var(--accent); }
+  input[type="email"]::placeholder { color: rgba(245, 241, 234, 0.32); }
+  input[type="email"]:focus { border-color: var(--accent); background: rgba(245, 241, 234, 0.05); }
 
   button {
     background: var(--accent);
     color: #0b0a09;
     border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 999px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
+    padding: 0.85rem 1.6rem;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-weight: 600;
     font-size: 0.92rem;
     cursor: pointer;
     transition: transform 0.15s ease, background 0.2s ease;
     white-space: nowrap;
   }
 
-  button:hover { background: #d6794c; transform: translateY(-1px); }
+  button:hover { background: var(--accent-bright); transform: translateY(-1px); }
   button:active { transform: translateY(0); }
+  button:disabled { opacity: 0.6; cursor: default; transform: none; }
 
   .note {
     margin-top: 0.9rem;
     font-size: 0.78rem;
-    color: rgba(245,241,234,0.4);
+    color: var(--ink-faint);
   }
 
   .success {
-    margin-top: 2.6rem;
+    margin-top: 1.4rem;
     font-size: 0.95rem;
     color: var(--ink);
     display: none;
@@ -150,80 +364,146 @@
   }
   .error.show { display: block; }
 
-  .fold {
-    position: absolute;
-    bottom: -4vh;
-    left: 0;
-    width: 100%;
-    height: 38vh;
-    z-index: 1;
-    pointer-events: none;
-  }
+  /* ---------- footer ---------- */
 
   footer {
-    position: absolute;
-    bottom: 1.4rem;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    font-size: 0.72rem;
-    color: rgba(245,241,234,0.25);
-    letter-spacing: 0.03em;
+    position: relative;
     z-index: 2;
+    border-top: 1px solid var(--line);
+    padding: 1.6rem clamp(1.25rem, 4vw, 3rem) 2rem;
+    max-width: 78rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  footer .f-left,
+  footer .f-right {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-faint);
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <div class="content">
+<div class="field" aria-hidden="true">
+  <svg viewBox="0 0 1440 1400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M -100 120 Q 320 30 720 120 Q 1120 210 1540 120" stroke="rgba(245,241,234,0.05)" stroke-width="1" fill="none"/>
+    <path d="M -100 230 Q 320 130 720 230 Q 1120 330 1540 230" stroke="rgba(245,241,234,0.045)" stroke-width="1" fill="none"/>
+    <path d="M -100 420 Q 320 300 720 420 Q 1120 540 1540 420" stroke="rgba(194,105,63,0.07)" stroke-width="1" fill="none"/>
+    <path d="M -100 560 Q 320 440 720 560 Q 1120 680 1540 560" stroke="rgba(245,241,234,0.04)" stroke-width="1" fill="none"/>
+    <path d="M -100 760 Q 320 620 720 760 Q 1120 900 1540 760" stroke="rgba(245,241,234,0.045)" stroke-width="1" fill="none"/>
+    <path d="M -100 920 Q 320 800 720 920 Q 1120 1040 1540 920" stroke="rgba(194,105,63,0.06)" stroke-width="1" fill="none"/>
+    <path d="M -100 1100 Q 320 980 720 1100 Q 1120 1220 1540 1100" stroke="rgba(245,241,234,0.04)" stroke-width="1" fill="none"/>
+    <path d="M -100 1280 Q 320 1160 720 1280 Q 1120 1400 1540 1280" stroke="rgba(245,241,234,0.035)" stroke-width="1" fill="none"/>
+  </svg>
+</div>
+
+<nav>
+  <div class="nav-mark">ANTI<span>FORM</span></div>
+  <div class="nav-right">
+    <span class="status-pill"><span class="dot"></span>BUILDING</span>
+    <a class="join-link" href="#join">Get updates</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="hero">
+    <p class="kicker">// stealth · 2026</p>
     <h1 class="mark">ANTI<span>FORM</span></h1>
     <p class="tagline">Earth-system intelligence for climate's hardest measurement problems.</p>
     <p class="geo-line">an antiform: a fold in rock whose true shape is still being found.</p>
+    <a class="hero-cta" href="#join">Get updates</a>
+  </section>
 
-    <form id="waitlist-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <input type="hidden" name="_subject" value="New Antiform waitlist signup">
-      <input type="text" name="_gotcha" style="display:none">
-      <input type="email" name="email" placeholder="you@email.com" required>
-      <button type="submit">Join the queue</button>
-    </form>
-    <p class="error" id="form-error">Something went wrong &mdash; try again in a moment.</p>
-    <p class="note">No spam. One note when there's something real to see.</p>
+  <section class="focus" id="focus">
+    <p class="kicker">Focus areas</p>
+    <div class="focus-grid">
+      <div class="focus-card">
+        <p class="focus-num">01</p>
+        <h3 class="focus-title">Measurement</h3>
+        <p class="focus-desc">Turning climate claims into things that can actually be verified, with physics — not assumptions.</p>
+      </div>
+      <div class="focus-card">
+        <p class="focus-num">02</p>
+        <h3 class="focus-title">Modeling</h3>
+        <p class="focus-desc">Physics-informed machine learning for the Earth-system processes climate accounting depends on.</p>
+      </div>
+      <div class="focus-card">
+        <p class="focus-num">03</p>
+        <h3 class="focus-title">Infrastructure</h3>
+        <p class="focus-desc">The data and tooling layer climate science and climate markets are still missing.</p>
+      </div>
+    </div>
+  </section>
 
-    <p class="success" id="form-success">You're in the queue. We'll be in touch.</p>
-  </div>
+  <section class="join" id="join">
+    <div class="join-inner">
+      <p class="kicker">Stay in the loop</p>
+      <h2 class="join-heading">Get notified when there's something real to see.</h2>
+      <p class="join-sub">No spam, no drip campaign — one note when we ship something real.</p>
 
-  <svg class="fold" viewBox="0 0 1000 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M -50 260 Q 250 60 500 260 Q 750 60 1050 260" stroke="rgba(245,241,234,0.08)" stroke-width="1.5" fill="none"/>
-    <path d="M -50 290 Q 250 110 500 290 Q 750 110 1050 290" stroke="rgba(194,105,63,0.10)" stroke-width="1.5" fill="none"/>
-    <path d="M -50 320 Q 250 160 500 320 Q 750 160 1050 320" stroke="rgba(245,241,234,0.05)" stroke-width="1.5" fill="none"/>
-  </svg>
+      <form id="waitlist-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="4499fb2b-cab1-42af-a68a-e3275c2cc1c6">
+        <input type="hidden" name="subject" value="New Antiform waitlist signup">
+        <input type="checkbox" name="botcheck" class="hidden" style="display:none">
+        <input type="email" name="email" placeholder="you@email.com" required>
+        <button type="submit">Join the queue</button>
+      </form>
+      <p class="error" id="form-error">Something went wrong &mdash; try again in a moment.</p>
+      <p class="success" id="form-success">You're in the queue. We'll be in touch.</p>
+    </div>
+  </section>
 
-  <footer>ANTIFORM &mdash; EST. 2026</footer>
-</div>
+</main>
+
+<footer>
+  <span class="f-left">ANTIFORM &mdash; EST. 2026</span>
+  <span class="f-right">EARTH SYSTEMS / CLIMATE</span>
+</footer>
 
 <script>
   const form = document.getElementById('waitlist-form');
   const success = document.getElementById('form-success');
   const errorEl = document.getElementById('form-error');
+  const button = form.querySelector('button');
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     errorEl.classList.remove('show');
-    const data = new FormData(form);
+    button.disabled = true;
+    button.textContent = 'Joining…';
+
+    const data = Object.fromEntries(new FormData(form));
+
     try {
       const res = await fetch(form.action, {
         method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
       });
-      if (res.ok) {
+      const result = await res.json().catch(() => ({}));
+
+      if (res.ok && result.success !== false) {
         form.classList.add('hide');
         success.classList.add('show');
       } else {
+        button.disabled = false;
+        button.textContent = 'Join the queue';
         errorEl.classList.add('show');
       }
     } catch (err) {
+      button.disabled = false;
+      button.textContent = 'Join the queue';
       errorEl.classList.add('show');
     }
   });
