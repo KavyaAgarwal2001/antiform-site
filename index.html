@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antiform</title>
+<meta name="description" content="Antiform. Building in climate & Earth systems. Get notified when we're out.">
+<meta property="og:title" content="Antiform">
+<meta property="og:description" content="Building in climate & Earth systems. Currently heads down.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-1: #0b0a09;
+    --bg-2: #15120f;
+    --ink: #f5f1ea;
+    --ink-muted: #b8b0a4;
+    --accent: #c2693f;
+    --accent-soft: rgba(194, 105, 63, 0.14);
+    --line: rgba(245, 241, 234, 0.16);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: radial-gradient(120% 120% at 50% 0%, var(--bg-2) 0%, var(--bg-1) 60%);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+  }
+
+  .wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6vh 1.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .content {
+    max-width: 38rem;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise 1.1s ease forwards;
+    animation-delay: 0.15s;
+  }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mark {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 7.5vw, 4.2rem);
+    letter-spacing: 0.04em;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .mark span { color: var(--accent); }
+
+  .tagline {
+    margin: 1.1rem auto 0;
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    font-weight: 400;
+    color: var(--ink-muted);
+    line-height: 1.55;
+    max-width: 30rem;
+  }
+
+  .geo-line {
+    margin: 0.9rem auto 0;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--accent);
+    opacity: 0.85;
+    letter-spacing: 0.01em;
+  }
+
+  form {
+    margin-top: 2.6rem;
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  input[type="email"] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.7rem 0.2rem;
+    min-width: 17rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  input[type="email"]::placeholder { color: rgba(245,241,234,0.35); }
+  input[type="email"]:focus { border-color: var(--accent); }
+
+  button {
+    background: var(--accent);
+    color: #0b0a09;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.2s ease;
+    white-space: nowrap;
+  }
+
+  button:hover { background: #d6794c; transform: translateY(-1px); }
+  button:active { transform: translateY(0); }
+
+  .note {
+    margin-top: 0.9rem;
+    font-size: 0.78rem;
+    color: rgba(245,241,234,0.4);
+  }
+
+  .success {
+    margin-top: 2.6rem;
+    font-size: 0.95rem;
+    color: var(--ink);
+    display: none;
+  }
+  .success.show { display: block; }
+  form.hide { display: none; }
+
+  .error {
+    margin-top: 0.9rem;
+    font-size: 0.8rem;
+    color: #e1a98d;
+    display: none;
+  }
+  .error.show { display: block; }
+
+  .fold {
+    position: absolute;
+    bottom: -4vh;
+    left: 0;
+    width: 100%;
+    height: 38vh;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  footer {
+    position: absolute;
+    bottom: 1.4rem;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.72rem;
+    color: rgba(245,241,234,0.25);
+    letter-spacing: 0.03em;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="content">
+    <h1 class="mark">ANTI<span>FORM</span></h1>
+    <p class="tagline">Earth-system intelligence for climate's hardest measurement problems.</p>
+    <p class="geo-line">an antiform: a fold in rock whose true shape is still being found.</p>
+
+    <form id="waitlist-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <input type="hidden" name="_subject" value="New Antiform waitlist signup">
+      <input type="text" name="_gotcha" style="display:none">
+      <input type="email" name="email" placeholder="you@email.com" required>
+      <button type="submit">Join the queue</button>
+    </form>
+    <p class="error" id="form-error">Something went wrong &mdash; try again in a moment.</p>
+    <p class="note">No spam. One note when there's something real to see.</p>
+
+    <p class="success" id="form-success">You're in the queue. We'll be in touch.</p>
+  </div>
+
+  <svg class="fold" viewBox="0 0 1000 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M -50 260 Q 250 60 500 260 Q 750 60 1050 260" stroke="rgba(245,241,234,0.08)" stroke-width="1.5" fill="none"/>
+    <path d="M -50 290 Q 250 110 500 290 Q 750 110 1050 290" stroke="rgba(194,105,63,0.10)" stroke-width="1.5" fill="none"/>
+    <path d="M -50 320 Q 250 160 500 320 Q 750 160 1050 320" stroke="rgba(245,241,234,0.05)" stroke-width="1.5" fill="none"/>
+  </svg>
+
+  <footer>ANTIFORM &mdash; EST. 2026</footer>
+</div>
+
+<script>
+  const form = document.getElementById('waitlist-form');
+  const success = document.getElementById('form-success');
+  const errorEl = document.getElementById('form-error');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.classList.remove('show');
+    const data = new FormData(form);
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.classList.add('hide');
+        success.classList.add('show');
+      } else {
+        errorEl.classList.add('show');
+      }
+    } catch (err) {
+      errorEl.classList.add('show');
+    }
+  });
+</script>
+
+</body>
+</html>
